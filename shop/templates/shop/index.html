@@ -1,0 +1,410 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEDLUM — Brewed to be Wild | Craft Soft Drink</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
+</head>
+<body>
+    <!-- CSRF Token for AJAX requests -->
+    {% csrf_token %}
+
+    <!-- Outer Page Canvas with Yellow Top and Waterfall Bottom -->
+    <div class="outer-viewport">
+        <!-- Outer waterfall background layer -->
+        <div class="waterfall-layer"></div>
+
+        <!-- Outer Dripping Yellow Fluid Waves -->
+        <div class="outer-fluid-overlay">
+            <svg class="outer-drip-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path d="M0,0 L1440,0 L1440,140 C1320,180 1240,290 1150,290 C1060,290 1000,160 880,180 C760,200 680,290 570,290 C460,290 400,150 280,170 C160,190 100,290 0,280 Z" fill="#DBAE00"></path>
+            </svg>
+        </div>
+
+        <!-- CENTER SHOWCASE DISPLAY (Exact Screenshot Frame) -->
+        <main class="hedlum-card" id="hedlumCard">
+            <!-- Card Top Yellow Base -->
+            <div class="card-inner-canvas">
+                
+                <!-- Announcement Bar -->
+                <div class="top-announcement">
+                    <span>Free shipping on all orders over $35</span>
+                </div>
+
+                <!-- Navigation Bar -->
+                <header class="card-header">
+                    <button class="nav-btn shop-now-btn" id="shopNowBtn" aria-label="Open shop catalog">
+                        <span class="wave-icon">
+                            <svg width="18" height="12" viewBox="0 0 18 12" fill="none">
+                                <path d="M1 2.5C3 0.8 5 0.8 7 2.5C9 4.2 11 4.2 13 2.5C15 0.8 17 0.8 17 2.5" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M1 9.5C3 7.8 5 7.8 7 9.5C9 11.2 11 11.2 13 9.5C15 7.8 17 7.8 17 9.5" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                        <span class="btn-text">SHOP NOW</span>
+                    </button>
+
+                    <div class="header-right">
+                        <button class="nav-link account-btn" id="accountBtn">
+                            <span class="smiley-icon">☺</span>
+                            <span class="link-label">account</span>
+                        </button>
+                        <button class="nav-btn cart-pill-btn" id="cartBtn" aria-label="Open Cart">
+                            <span class="bag-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </span>
+                            <span class="btn-text">cart</span>
+                            <span class="cart-badge-count" id="cartItemCount">{{ cart_items_count }}</span>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- HERO SECTION -->
+                <section class="hero-stage">
+                    <!-- GIANT "HEDLUM" TYPOGRAPHY (Spanning Across Top) -->
+                    <h1 class="brand-title" id="brandTitle">HEDLUM</h1>
+
+                    <!-- HERO GRID CONTENT -->
+                    <div class="hero-content">
+                        <!-- Left Hero Info -->
+                        <div class="hero-left">
+                            <div class="mascot-badge" title="Hedlum Horns Mascot">
+                                <img src="{% static 'shop/images/mascot.png' %}" alt="Hedlum Wild Mascot" class="mascot-img" id="mascotImg">
+                            </div>
+
+                            <div class="hero-copy-block">
+                                <h2 class="hero-headline" id="heroHeadline">
+                                    {{ featured_product.hero_headline }}
+                                </h2>
+                            </div>
+
+                            <!-- White Sparkle Star -->
+                            <div class="sparkle-star-wrap">
+                                <svg class="sparkle-star" viewBox="0 0 100 100" fill="none">
+                                    <path d="M50 0 C50 32 68 50 100 50 C68 50 50 68 50 100 C50 68 32 50 0 50 C32 50 50 32 50 0 Z" fill="#FFFFFF"/>
+                                </svg>
+                            </div>
+
+                            <!-- Quick Interactive Purchase Toolbar -->
+                            <div class="hero-action-bar">
+                                <div class="pack-selector">
+                                    <button type="button" class="pack-pill" data-pack="4-Pack" data-price="6.99">4-Pack</button>
+                                    <button type="button" class="pack-pill active" data-pack="12-Pack Case" data-price="{{ featured_product.price }}">12-Pack</button>
+                                    <button type="button" class="pack-pill" data-pack="24-Pack Party Pack" data-price="26.99">24-Pack</button>
+                                </div>
+
+                                <div class="buy-row">
+                                    <button class="hero-add-to-cart-btn" id="heroAddToCartBtn" data-product-id="{{ featured_product.id }}">
+                                        <span class="add-txt">ADD TO CART</span>
+                                        <span class="dot-sep">•</span>
+                                        <span class="price-val" id="displayedPrice">${{ featured_product.price }}</span>
+                                    </button>
+                                </div>
+
+                                <!-- Flavor Switcher Dots -->
+                                <div class="flavor-swatches">
+                                    <span class="flavor-label">FLAVORS:</span>
+                                    {% for p in products %}
+                                    <button type="button" 
+                                            class="swatch-btn {% if p.id == featured_product.id %}active{% endif %}" 
+                                            style="--swatch-color: {{ p.primary_color }};"
+                                            data-id="{{ p.id }}"
+                                            data-name="{{ p.name }}"
+                                            data-headline="{{ p.hero_headline }}"
+                                            data-price="{{ p.price }}"
+                                            data-img="{{ p.image_url }}"
+                                            data-color="{{ p.primary_color }}"
+                                            title="{{ p.name }}">
+                                    </button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Hero Beverage Can (3D Angled Can with physics) -->
+                        <div class="hero-right">
+                            <div class="can-3d-wrapper" id="can3DWrapper">
+                                <div class="can-glow" id="canGlow"></div>
+                                <img src="{{ featured_product.image_url }}" 
+                                     alt="Hedlum Craft Beverage Can" 
+                                     class="hero-can-img" 
+                                     id="heroCanImg"
+                                     draggable="false">
+                                
+                                <!-- Floating Nutrition / Feature Pills -->
+                                <div class="can-badge-float badge-cal">
+                                    <span class="badge-num" id="heroCalVal">{{ featured_product.calories }}</span>
+                                </div>
+                                <div class="can-badge-float badge-sugar">
+                                    <span class="badge-num" id="heroSugarVal">{{ featured_product.sugar }}</span>
+                                </div>
+                                <div class="can-badge-float badge-alc">
+                                    <span class="badge-num" id="heroAlcVal">NON-ALC</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Organic Liquid Wave Inside Card -->
+                <div class="card-bottom-wave-container">
+                    <svg class="card-bottom-wave" viewBox="0 0 1000 240" preserveAspectRatio="none">
+                        <path d="M0,0 L1000,0 L1000,10 C900,10 820,130 680,130 C540,130 460,20 320,20 C180,20 120,130 0,110 Z" fill="#EECB3A"></path>
+                    </svg>
+                    <!-- Waterfall background showing under the wave cutout -->
+                    <div class="card-waterfall-bg"></div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- SLIDE-OVER SHOP CATALOG DRAWER -->
+    <div class="catalog-drawer" id="catalogDrawer">
+        <div class="drawer-backdrop" id="catalogBackdrop"></div>
+        <div class="drawer-panel catalog-panel">
+            <div class="drawer-header">
+                <h3>ALL HEDLUM CRAFT SODAS</h3>
+                <button class="close-drawer-btn" id="closeCatalogBtn">✕</button>
+            </div>
+            <div class="catalog-grid">
+                {% for p in products %}
+                <div class="product-card" style="--prod-theme: {{ p.primary_color }}">
+                    <div class="prod-img-box" onclick="selectProductFromCatalog('{{ p.id }}')">
+                        <img src="{{ p.image_url }}" alt="{{ p.name }}">
+                    </div>
+                    <div class="prod-info">
+                        <div class="prod-tagline">{{ p.tagline }}</div>
+                        <h4 class="prod-name">{{ p.name }}</h4>
+                        <p class="prod-notes">{{ p.flavor_notes }}</p>
+                        <div class="prod-specs">
+                            <span>{{ p.calories }}</span>
+                            <span>•</span>
+                            <span>{{ p.sugar }}</span>
+                            <span>•</span>
+                            <span>{{ p.volume }}</span>
+                        </div>
+                        <div class="prod-footer">
+                            <div class="price-wrap">
+                                <span class="prod-price">${{ p.price }}</span>
+                                {% if p.original_price %}
+                                <span class="orig-price">${{ p.original_price }}</span>
+                                {% endif %}
+                            </div>
+                            <button class="catalog-add-btn" onclick="addToCartDirect('{{ p.id }}', '12-Pack Case', '{{ p.price }}')">
+                                + ADD
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE-OVER CART DRAWER -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="drawer-backdrop" id="cartBackdrop"></div>
+        <div class="drawer-panel cart-panel">
+            <div class="drawer-header">
+                <div class="drawer-title-row">
+                    <h3>YOUR CART</h3>
+                    <span class="cart-drawer-count" id="cartDrawerCount">({{ cart_items_count }} items)</span>
+                </div>
+                <button class="close-drawer-btn" id="closeCartBtn">✕</button>
+            </div>
+
+            <!-- Free Shipping Tracker -->
+            <div class="shipping-tracker-bar">
+                <div class="shipping-msg" id="shippingMsg">
+                    {% if cart.qualifies_for_free_shipping %}
+                    🎉 You unlocked <strong>FREE Shipping!</strong>
+                    {% else %}
+                    Add <strong>${{ cart.amount_needed_for_free_shipping }}</strong> more for <strong>FREE SHIPPING!</strong>
+                    {% endif %}
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="shippingProgressFill" style="width: {% if cart.qualifies_for_free_shipping %}100%{% else %}{{ cart.total_price|default:0|floatformat:0 }}%{% endif %};"></div>
+                </div>
+            </div>
+
+            <!-- Cart Items Container -->
+            <div class="cart-items-list" id="cartItemsList">
+                {% if cart.items.count == 0 %}
+                <div class="empty-cart-state" id="emptyCartState">
+                    <div class="empty-icon">🥤</div>
+                    <h4>Your cooler is empty!</h4>
+                    <p>Stock up on ice-cold Hedlum craft brew sodas.</p>
+                    <button class="empty-shop-btn" onclick="openCatalog()">SHOP FLAVORS NOW</button>
+                </div>
+                {% else %}
+                    {% for item in cart.items.all %}
+                    <div class="cart-item-row" data-item-id="{{ item.id }}">
+                        <div class="item-thumb" style="background: {{ item.product.primary_color }}22;">
+                            <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                        </div>
+                        <div class="item-details">
+                            <h5 class="item-title">{{ item.product.name }}</h5>
+                            <span class="item-pack">{{ item.pack_size }}</span>
+                            <span class="item-unit-price">${{ item.unit_price }}</span>
+                        </div>
+                        <div class="item-qty-actions">
+                            <div class="qty-stepper">
+                                <button type="button" class="qty-btn" onclick="updateItemQty('{{ item.id }}', 'decrease')">−</button>
+                                <span class="qty-val">{{ item.quantity }}</span>
+                                <button type="button" class="qty-btn" onclick="updateItemQty('{{ item.id }}', 'increase')">+</button>
+                            </div>
+                            <span class="item-subtotal">${{ item.subtotal }}</span>
+                            <button class="item-remove-btn" onclick="updateItemQty('{{ item.id }}', 'remove')" title="Remove">✕</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Cart Summary & Checkout -->
+            <div class="cart-footer">
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotalVal">${{ cart.total_price|default:"0.00" }}</span>
+                </div>
+                <div class="summary-line">
+                    <span>Shipping</span>
+                    <span id="cartShippingVal">{% if cart.qualifies_for_free_shipping %}FREE{% else %}$5.99{% endif %}</span>
+                </div>
+                <div class="summary-line total-line">
+                    <span>Estimated Total</span>
+                    <span id="cartTotalVal">${{ cart.total_price|default:"0.00" }}</span>
+                </div>
+
+                <button class="checkout-btn" id="proceedCheckoutBtn">
+                    PROCEED TO CHECKOUT ➔
+                </button>
+                <div class="guarantee-note">
+                    🔒 100% Satisfaction Guarantee • Fast Cold-Pack Shipping
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-dialog checkout-dialog">
+            <div class="modal-header">
+                <h3>SECURE CHECKOUT</h3>
+                <button class="close-modal-btn" id="closeCheckoutBtn">✕</button>
+            </div>
+            <form id="checkoutForm" class="checkout-form">
+                <div class="form-section">
+                    <h4>1. CONTACT & SHIPPING ADDRESS</h4>
+                    <div class="form-row double">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="custName" required placeholder="Alex Mercer" value="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="custEmail" required placeholder="alex@hedlum.com" value="user@hedlum.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Shipping Street Address</label>
+                        <input type="text" id="custAddress" required placeholder="742 Evergreen Terrace" value="101 Mountain View Ave">
+                    </div>
+                    <div class="form-row double">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="custCity" required placeholder="Denver" value="Boulder">
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" id="custZip" required placeholder="80202" value="80301">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>2. PAYMENT METHOD (DEMO / SIMULATED)</h4>
+                    <div class="payment-tabs">
+                        <label class="pay-tab active">
+                            <input type="radio" name="paymethod" checked>
+                            <span>Credit / Debit Card</span>
+                        </label>
+                        <label class="pay-tab">
+                            <input type="radio" name="paymethod">
+                            <span>Cash on Delivery</span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" placeholder="•••• •••• •••• 4242" value="4242 4242 4242 4242">
+                    </div>
+                    <div class="form-row double">
+                        <div class="form-group">
+                            <label>Exp Date</label>
+                            <input type="text" placeholder="MM/YY" value="12/28">
+                        </div>
+                        <div class="form-group">
+                            <label>CVC</label>
+                            <input type="text" placeholder="CVC" value="321">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-submit-bar">
+                    <button type="submit" class="place-order-btn" id="placeOrderBtn">
+                        PLACE ORDER NOW (<span id="checkoutTotalBtn">${{ cart.total_price|default:"14.99" }}</span>)
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ORDER SUCCESS CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="orderSuccessModal">
+        <div class="modal-dialog success-dialog">
+            <div class="success-icon">🎉</div>
+            <h3 id="successTitle">ORDER CONFIRMED!</h3>
+            <p id="successMsg">Thank you! Your ice-cold Hedlum craft beverages are being prepared for dispatch.</p>
+            <div class="order-id-badge" id="successOrderNum">ORDER #HD-10924</div>
+            <button class="keep-shopping-btn" id="keepShoppingBtn">CONTINUE SHOPPING</button>
+        </div>
+    </div>
+
+    <!-- ACCOUNT MODAL -->
+    <div class="modal-overlay" id="accountModal">
+        <div class="modal-dialog account-dialog">
+            <div class="modal-header">
+                <h3>HEDLUM WILD CLUB</h3>
+                <button class="close-modal-btn" id="closeAccountBtn">✕</button>
+            </div>
+            <div class="account-body">
+                <div class="member-perk-card">
+                    <span class="perk-tag">MEMBER STATUS</span>
+                    <h4>VIP Wild Explorer</h4>
+                    <p>You earn 10 points per dollar spent. Free shipping on all craft case orders!</p>
+                </div>
+                <div class="perks-list">
+                    <div class="perk-item">✓ Unlimited Free Shipping on orders over $35</div>
+                    <div class="perk-item">✓ Exclusive early drops for limited edition batches</div>
+                    <div class="perk-item">✓ 100% recyclable cold-insulation packing</div>
+                </div>
+                <button class="close-account-ok-btn" onclick="closeAccountModal()">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-popup" id="toastPopup">Added to cart!</div>
+
+    <!-- Scripts -->
+    <script src="{% static 'shop/js/app.js' %}"></script>
+</body>
+</html>
